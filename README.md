@@ -1,4 +1,4 @@
-[运行截图](https://github.com/BUGres/IbukiCode/blob/main/运行时.png)
+![运行截图](https://github.com/BUGres/IbukiCode/blob/main/运行时.png)
 
 ### 使用方法
 
