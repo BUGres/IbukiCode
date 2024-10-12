@@ -1,0 +1,2 @@
+插入宏	透明混合	Blend SrcAlpha One
+插入宏	透明批声明	Tags { "RenderType"="Opaque" "Queue"="Transparent" }

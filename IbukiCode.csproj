@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PackageIcon></PackageIcon>
+    <Authors>ibuki</Authors>
+    <ApplicationIcon>Resource\咖啡.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resource\保存.png" />
+    <None Remove="Resource\关闭.png" />
+    <None Remove="Resource\剪切板.png" />
+    <None Remove="Resource\咖啡.ico" />
+    <None Remove="Resource\文件.png" />
+    <None Remove="Resource\新建.png" />
+    <None Remove="Resource\最小化.png" />
+    <None Remove="Resource\链接.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resource\咖啡.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\保存.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\剪切板.png" />
+    <Resource Include="Resource\咖啡.ico" />
+    <Resource Include="Resource\文件.png" />
+    <Resource Include="Resource\新建.png" />
+    <Resource Include="Resource\链接.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Edit\shader.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
