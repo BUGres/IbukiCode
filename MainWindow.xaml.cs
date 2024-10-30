@@ -234,7 +234,8 @@ namespace IbukiCode
 
         private void Link_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("链接器暂不能使用");
+            if (string.IsNullOrEmpty(LeftCode.Text)) return;
+            MyUdpServer.Send(LeftCode.Text);
         }
 
         private void Copy_Click(object sender, RoutedEventArgs e)
