@@ -109,8 +109,11 @@
             <ComboBoxItem Content="从模板复制" Foreground="{DynamicResource CodeColor}" Background="{DynamicResource BackgroundColor}" BorderThickness="0,0,0,0" />
         </ComboBox>
 
-        <TextBlock Text="代码复制" Foreground="{DynamicResource CodeColor}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="90,68,0,0" Width="90" Height="30" FontSize="16" FontFamily="Consolas" TextDecorations="Underline" />
+        <TextBlock Text="复制代码" Foreground="{DynamicResource CodeColor}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="90,68,0,0" Width="90" Height="30" FontSize="16" FontFamily="Consolas" TextDecorations="Underline" />
         <ComboBox Name="EditType_Title" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="90,60,0,0" Width="90" Height="30" FontSize="16" Opacity="0" SelectionChanged="EditType_Title_SelectionChanged" >
         </ComboBox>
+
+        <TextBlock Text="右键此处关闭" Foreground="{DynamicResource CodeColor}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,60,10,0" Width="120" Height="30" FontSize="16" FontFamily="Consolas" />
+
     </Grid>
 </Window>

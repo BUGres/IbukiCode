@@ -86,11 +86,13 @@ namespace IbukiCode
         // 代码变更
         private void LeftCode_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // 获取当前的文本
             var str = LeftCode.Text;
+            if (str[^1] != '\n') str = str + "\n";
             // 清理之前的标注
             CodeLightHeightRem.Clear();
             CodeLightCanvas.Children.Clear();
-            if (fileType == "shader")
+            if (fileType == "shader" || fileType == "hlsl")
             {
                 for (int i = 0; i < KeyWords.shader.Count; i++)
                 { 
@@ -98,8 +100,26 @@ namespace IbukiCode
                     List<int> keys = FindAllOccurrences(str, keyword);
                     foreach (var index in keys)
                     {
+                        if (index > 0 && 
+                            str[index - 1] != ' ' &&
+                            str[index - 1] != '\r' &&
+                            str[index - 1] != '\n' && 
+                            str[index - 1] != '\t')
+                        {
+                            continue;
+                        }
+                        else
+                        if (str[index + keyword.Length] != ' ' &&
+                            str[index + keyword.Length] != '\r' &&
+                            str[index + keyword.Length] != '\n' && 
+                            str[index + keyword.Length] != '\t')
+                        {
+                            continue;
+                        }
+
                         var r = LeftCode.GetRectFromCharacterIndex(index);
                         var r2 = LeftCode.GetRectFromCharacterIndex(index + keyword.Length);
+                        // 如果是关键字中的值类型
                         var lightcolor = KeyWords.shader_valueType.IndexOf(keyword) == -1 ? "CodeLightColor" : "CodeLightColor_ValueType";
                         var area = new Rectangle() {
                             Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(ConfigurationManager.AppSettings[lightcolor])),
@@ -114,7 +134,47 @@ namespace IbukiCode
                         CodeLightHeightRem.Add(area, r.Y + 90);
                     }
                 }
+
+                List<string> paragraphKeywards = new List<string>() { "Properties", "struct", "Pass" };
+                foreach (var paragraphKeyword in paragraphKeywards)
+                {
+                    // Properties关键字
+                    List<int> Propertieskeys = FindAllOccurrences(str, paragraphKeyword);
+                    foreach (var index in Propertieskeys)
+                    {
+                        var r = LeftCode.GetRectFromCharacterIndex(index);
+                        int endlineCount = 1; // 行数量
+                        int leftICount = 0; // 左括号计数
+                                            // bool isFirstLeftICountZero = true; // 第一次归零
+                        for (int i = 0; i < str.Length - index; i++)
+                        {
+                            if (str[i + index] == '\n') endlineCount++;
+                            else if (str[i + index] == '{') leftICount++;
+                            else if (str[i + index] == '}') leftICount--;
+
+                            if (leftICount == 0 && str[i + index] == '}')
+                            {
+                                break;
+                            }
+                        }
+                        var area = new Rectangle()
+                        {
+                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(ConfigurationManager.AppSettings["BackgroundColor_deepGround"])),
+                            RadiusX = 1,
+                            RadiusY = 1,
+                        };
+                        area.Width = 1000000;
+                        area.Height = r.Height * endlineCount;
+                        CodeLightCanvas.Children.Add(area);
+                        Canvas.SetLeft(area, 0);
+                        Canvas.SetTop(area, r.Y + 90);
+                        CodeLightHeightRem.Add(area, r.Y + 90);
+                    }
+                }
             }
+
+            // 触发一次重新layout
+            CodeViewChange(null, null);
         }
 
         // 查询函数input中出现的substring
@@ -378,7 +438,7 @@ namespace IbukiCode
         {
             "shader",
             "lua",
-
+            "hlsl",
         };
         // 二级支持：可以高亮标注
         // 不支持：仅按照txt打开
@@ -450,13 +510,26 @@ namespace IbukiCode
                 {
                     var parts = line.Split('\t');
                     if (parts[0] == "插入宏") hong.Add(parts[1], parts[2]);
-                    if (parts[0] == "插入变量") bianliang.Add(parts[1], parts[2]);
-                    if (parts[0] == "插入函数") hanshu.Add(parts[1], parts[2]);
-                    if (parts[0] == "插入类") lei.Add(parts[1], parts[2]);
-                    if (parts[0] == "从模板复制") moban.Add(parts[1], parts[2]);
+                    else if (parts[0] == "插入变量") bianliang.Add(parts[1], parts[2]);
+                    else if (parts[0] == "插入函数") hanshu.Add(parts[1], parts[2]);
+                    else if (parts[0] == "插入类") lei.Add(parts[1], parts[2]);
+                    else if (parts[0] == "从模板复制")
+                    {
+                        if (File.Exists("Edit/" + parts[2] + ".txt"))
+                        {
+                            moban.Add(parts[1], File.ReadAllText("Edit/" + parts[2] + ".txt"));
+                        }
+                        else
+                        {
+                            MessageBox.Show("无法打开文件" + "Edit/" + parts[2] + ".txt", "出现了一些意外");
+                        }
+                    }
                 }
             }
-            catch { }
+            catch (Exception e)
+            {
+                // MessageBox.Show(e.Message, "出现了一些意外");
+            }
         }
 
         public void WakeUp()
