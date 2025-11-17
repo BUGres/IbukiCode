@@ -135,7 +135,7 @@ namespace IbukiCode
                     }
                 }
 
-                List<string> paragraphKeywards = new List<string>() { "Properties", "struct", "Pass" };
+                List<string> paragraphKeywards = new List<string>() { "Properties", "struct", "Pass", "maxvertexcount" };
                 foreach (var paragraphKeyword in paragraphKeywards)
                 {
                     // Properties关键字

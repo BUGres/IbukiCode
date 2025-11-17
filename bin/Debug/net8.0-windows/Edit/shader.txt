@@ -1,3 +1,0 @@
-插入宏	透明混合	Blend SrcAlpha One
-插入宏	透明批声明	Tags { "RenderType"="Opaque" "Queue"="Transparent" }
-从模板复制	标准模板	shader模板_默认Shader

@@ -50,6 +50,9 @@
     <None Update="Edit\shader_valueType.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Edit\shader模板_HLSL标准Unlit.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Edit\shader模板_默认Shader.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
